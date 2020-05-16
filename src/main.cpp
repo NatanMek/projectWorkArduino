@@ -7,7 +7,7 @@
 
 const char *ssid = "TISCALI-0080";
 const char *password = "DB3K3UUHFM";
-const char *mqtt_server = "109.68.154.91";
+const char *mqtt_server = "broker.mqtt-dashboard.com";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
