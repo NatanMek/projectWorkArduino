@@ -1,16 +1,14 @@
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-#include <TinyGPS++.h>
 #include <WiFi.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 
 const char *ssid = "TISCALI-0080";
 const char *password = "DB3K3UUHFM";
-const char *mqtt_server = "broker.mqtt-dashboard.com";
+const char *mqtt_server = "109.68.154.91";
 
-TinyGPSPlus gps;
 WiFiClient espClient;
 PubSubClient client(espClient);
 WiFiUDP ntpUDP;
@@ -90,7 +88,7 @@ void loop()
   float lat;
   float lng;
 
-  temperatura = random(5, 39);
+  temperatura = random(500.0, 3900.0) / 100.0;
   lat = random(-3000, 10000) / 100.0;
   lng = random(-10000, -1000) / 100.0;
 
@@ -110,23 +108,21 @@ void loop()
     Serial.println(msg);
     client.publish("Temperatura: ", msg);
 
-    sprintf(msg, "%2.6f", lat);
-    Serial.print("Lat= ");
+    sprintf(msg, "%2.6f %c%c", lat, 0xC2, 0xB0);
+    Serial.print("Lat: ");
     Serial.println(msg);
-    client.publish("Lat= ", msg);
+    client.publish("Lat: ", msg);
 
-    sprintf(msg, "%2.6f", lng);
-    Serial.print("Long= ");
+    sprintf(msg, "%2.6f %c%c", lng, 0xC2, 0xB0);
+    Serial.print("Long: ");
     Serial.println(msg);
-    client.publish("Long= ", msg);
+    client.publish("Long: ", msg);
 
     while (!timeClient.update())
     {
       timeClient.forceUpdate();
     }
-    // The formattedDate comes with the following format:
-    // 2018-05-28T16:00:13Z
-    // We need to extract date and time
+
     formattedDate = timeClient.getFormattedDate();
     Serial.println(formattedDate);
   }
