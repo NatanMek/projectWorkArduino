@@ -20,7 +20,7 @@ unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE (50)
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
-StaticJsonDocument<200> doc;
+StaticJsonDocument<1024> doc;
 String formattedDate;
 String dayStamp;
 String timeStamp;
