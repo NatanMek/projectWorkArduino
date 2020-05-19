@@ -20,7 +20,7 @@ unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE (50)
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
-StaticJsonDocument<1024> doc;
+StaticJsonDocument<2048> doc;
 String formattedDate;
 String dayStamp;
 String timeStamp;
@@ -91,6 +91,12 @@ void loop()
   float lat;
   float lng;
 
+  String tempUnit = "\u00B0"
+                    "C";
+  String gpsUnit = "\u00B0";
+
+  tempUnit.c_str();
+  gpsUnit.c_str();
   temp = random(500.0, 3900.0) / 100.0;
   lat = random(-3000, 10000) / 100.0;
   lng = random(-10000, -1000) / 100.0;
@@ -116,13 +122,22 @@ void loop()
   {
     lastMsg = now;
     ++value;
-    doc["Temp: "] = temp;
-    doc["Lat: "] = lat;
-    doc["Long: "] = lng;
+    // JSON Doc Object
+    /* doc["Temp: "] = serialized(String(temp, 1));
+    doc["Lat: "] = serialized(String(lat, 6));
+    doc["Long: "] = serialized(String(lng, 6));
     doc["Date: "] = dayStamp;
-    doc["Time: "] = timeStamp;
+    doc["Time: "] = timeStamp; */
+
+    // Creazione di array
+    doc.add("Temp: " + serialized(String(temp, 1)) + tempUnit);
+    doc.add("Lat: " + serialized(String(lat, 6)) + gpsUnit);
+    doc.add("Long: " + serialized(String(lng, 6)) + gpsUnit);
+    doc.add("Date: " + dayStamp);
+    doc.add("Time: " + timeStamp);
 
     Serial.println();
     serializeJsonPretty(doc, Serial);
+    client.publish("", msg);
   }
 }
