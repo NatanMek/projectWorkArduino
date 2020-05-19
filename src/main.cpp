@@ -4,6 +4,8 @@
 #include <WiFi.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <NTPtimeESP.h>
+#include <ArduinoJson.h>
 
 const char *ssid = "TISCALI-0080";
 const char *password = "DB3K3UUHFM";
@@ -18,6 +20,7 @@ unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE (50)
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
+StaticJsonDocument<200> doc;
 String formattedDate;
 String dayStamp;
 String timeStamp;
@@ -84,11 +87,11 @@ void setup()
 
 void loop()
 {
-  double temperatura;
+  double temp;
   float lat;
   float lng;
 
-  temperatura = random(500.0, 3900.0) / 100.0;
+  temp = random(500.0, 3900.0) / 100.0;
   lat = random(-3000, 10000) / 100.0;
   lng = random(-10000, -1000) / 100.0;
 
@@ -98,32 +101,28 @@ void loop()
   }
   client.loop();
 
+  while (!timeClient.update())
+  {
+    timeClient.forceUpdate();
+  }
+
+  formattedDate = timeClient.getFormattedDate();
+  int splitT = formattedDate.indexOf("T");
+  dayStamp = formattedDate.substring(0, splitT);
+  timeStamp = formattedDate.substring(splitT + 1, formattedDate.length() - 1);
+
   unsigned long now = millis();
   if (now - lastMsg > 2000)
   {
     lastMsg = now;
     ++value;
-    sprintf(msg, "%.1f %c%cC", temperatura, 0xC2, 0xB0);
-    Serial.print("Temperatura: ");
-    Serial.println(msg);
-    client.publish("Temperatura: ", msg);
+    doc["Temp: "] = temp;
+    doc["Lat: "] = lat;
+    doc["Long: "] = lng;
+    doc["Date: "] = dayStamp;
+    doc["Time: "] = timeStamp;
 
-    sprintf(msg, "%2.6f %c%c", lat, 0xC2, 0xB0);
-    Serial.print("Lat: ");
-    Serial.println(msg);
-    client.publish("Lat: ", msg);
-
-    sprintf(msg, "%2.6f %c%c", lng, 0xC2, 0xB0);
-    Serial.print("Long: ");
-    Serial.println(msg);
-    client.publish("Long: ", msg);
-
-    while (!timeClient.update())
-    {
-      timeClient.forceUpdate();
-    }
-
-    formattedDate = timeClient.getFormattedDate();
-    Serial.println(formattedDate);
+    Serial.println();
+    serializeJsonPretty(doc, Serial);
   }
 }
