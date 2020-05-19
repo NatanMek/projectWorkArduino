@@ -17,13 +17,20 @@ WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
 unsigned long lastMsg = 0;
-#define MSG_BUFFER_SIZE (50)
+#define MSG_BUFFER_SIZE (150)
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
-StaticJsonDocument<2048> doc;
+StaticJsonDocument<1024> doc;
 String formattedDate;
 String dayStamp;
 String timeStamp;
+double temp;
+float lat;
+float lng;
+
+String tempUnit = "\u00B0"
+                  "C";
+String gpsUnit = "\u00B0";
 
 void setup_wifi()
 {
@@ -64,7 +71,7 @@ void reconnect()
     {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("temperature-prova", "reconnected");
+      client.subscribe("ProjectWork/natan");
     }
     else
     {
@@ -87,14 +94,6 @@ void setup()
 
 void loop()
 {
-  double temp;
-  float lat;
-  float lng;
-
-  String tempUnit = "\u00B0"
-                    "C";
-  String gpsUnit = "\u00B0";
-
   tempUnit.c_str();
   gpsUnit.c_str();
   temp = random(500.0, 3900.0) / 100.0;
@@ -103,7 +102,7 @@ void loop()
 
   if (!client.connected())
   {
-    //reconnect();
+    reconnect();
   }
   client.loop();
 
@@ -137,7 +136,8 @@ void loop()
     doc.add("Time: " + timeStamp);
 
     Serial.println();
+    serializeJsonPretty(doc, Serial);
     serializeJsonPretty(doc, msg);
-    client.publish("", msg);
+    client.publish("ProjectWork/natan", msg);
   }
 }
