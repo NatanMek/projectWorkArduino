@@ -137,7 +137,7 @@ void loop()
     doc.add("Time: " + timeStamp);
 
     Serial.println();
-    serializeJsonPretty(doc, Serial);
+    serializeJsonPretty(doc, msg);
     client.publish("", msg);
   }
 }
