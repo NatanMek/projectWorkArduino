@@ -17,10 +17,11 @@ WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
 unsigned long lastMsg = 0;
-#define MSG_BUFFER_SIZE (150)
+#define MSG_BUFFER_SIZE (200)
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
-StaticJsonDocument<1024> doc;
+const size_t capacity = JSON_ARRAY_SIZE(5);
+DynamicJsonDocument doc(1024);
 String formattedDate;
 String dayStamp;
 String timeStamp;
@@ -129,11 +130,12 @@ void loop()
     doc["Time: "] = timeStamp; */
 
     // Creazione di array
-    doc.add("Temp: " + serialized(String(temp, 1)) + tempUnit);
-    doc.add("Lat: " + serialized(String(lat, 6)) + gpsUnit);
-    doc.add("Long: " + serialized(String(lng, 6)) + gpsUnit);
-    doc.add("Date: " + dayStamp);
-    doc.add("Time: " + timeStamp);
+    JsonArray dati = doc.to<JsonArray>();
+    dati.add("Temp: " + serialized(String(temp, 1)) + tempUnit);
+    dati.add("Lat: " + serialized(String(lat, 6)) + gpsUnit);
+    dati.add("Long: " + serialized(String(lng, 6)) + gpsUnit);
+    dati.add("Date: " + dayStamp);
+    dati.add("Time: " + timeStamp);
 
     Serial.println();
     serializeJsonPretty(doc, Serial);
