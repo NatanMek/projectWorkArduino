@@ -1,0 +1,266 @@
+[
+    {
+        "id": "94527b34.1b3cd8",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "44592cdb.117494",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "7bef23b5.7b29dc",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "Progetto",
+        "broker": "broker.mqtt-dashboard.com",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "308a4932.87f0e6",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "4cdfc89b.de1578",
+        "type": "ui_group",
+        "z": "",
+        "name": "Temperatura",
+        "tab": "308a4932.87f0e6",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "9c30420c.14c5e",
+        "type": "debug",
+        "z": "94527b34.1b3cd8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 510,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e75dfa9f.f35098",
+        "type": "ui_gauge",
+        "z": "94527b34.1b3cd8",
+        "name": "Temperatura",
+        "group": "4cdfc89b.de1578",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "°C",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "40.0",
+        "colors": [
+            "#0a92db",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 490,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "17057940.3013a7",
+        "type": "ui_switch",
+        "z": "94527b34.1b3cd8",
+        "name": "",
+        "label": "Output",
+        "tooltip": "",
+        "group": "4cdfc89b.de1578",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 210,
+        "y": 480,
+        "wires": [
+            [
+                "773720e7.1789c"
+            ]
+        ]
+    },
+    {
+        "id": "773720e7.1789c",
+        "type": "mqtt out",
+        "z": "94527b34.1b3cd8",
+        "name": "",
+        "topic": "ProjectWork/Temp",
+        "qos": "1",
+        "retain": "",
+        "broker": "7bef23b5.7b29dc",
+        "x": 450,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "6614f0c7.9d8dc",
+        "type": "mqtt in",
+        "z": "94527b34.1b3cd8",
+        "name": "",
+        "topic": "ProjectWork/Temp",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "7bef23b5.7b29dc",
+        "x": 230,
+        "y": 400,
+        "wires": [
+            [
+                "e75dfa9f.f35098"
+            ]
+        ]
+    },
+    {
+        "id": "3836ccda.a5a864",
+        "type": "mqtt in",
+        "z": "94527b34.1b3cd8",
+        "name": "",
+        "topic": "ProjectWork/natan",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "7bef23b5.7b29dc",
+        "x": 230,
+        "y": 300,
+        "wires": [
+            [
+                "9c30420c.14c5e"
+            ]
+        ]
+    }
+]
