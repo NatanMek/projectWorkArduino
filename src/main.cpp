@@ -93,31 +93,12 @@ void setup()
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   randomSeed(analogRead(0));
-}
-
-void loop()
-{
-  tempUnit.c_str();
-  gpsUnit.c_str();
-  temp = random(500.0, 3900.0) / 100.0;
-  lat = random(-3000, 10000) / 100.0;
-  lng = random(-10000, -1000) / 100.0;
 
   if (!client.connected())
   {
     reconnect();
   }
-  client.loop();
-
-  while (!timeClient.update())
-  {
-    timeClient.forceUpdate();
-  }
-
-  formattedDate = timeClient.getFormattedDate();
-  int splitT = formattedDate.indexOf("T");
-  dayStamp = formattedDate.substring(0, splitT);
-  timeStamp = formattedDate.substring(splitT + 1, formattedDate.length() - 1);
+  //client.loop();
 
   unsigned long now = millis();
   if (now - lastMsg > 5000)
@@ -126,24 +107,49 @@ void loop()
     ++value;
     // JSON Doc Object
     /* doc["Temp: "] = serialized(String(temp, 1));
-    doc["Lat: "] = serialized(String(lat, 6));
-    doc["Long: "] = serialized(String(lng, 6));
-    doc["Date: "] = dayStamp;
-    doc["Time: "] = timeStamp; */
+        doc["Lat: "] = serialized(String(lat, 6));
+        doc["Long: "] = serialized(String(lng, 6));
+        doc["Date: "] = dayStamp;
+        doc["Time: "] = timeStamp; */
 
     // Creazione di array
-    JsonArray dati = doc.to<JsonArray>();
-    dati.add("Temp: " + serialized(String(temp, 1)) + tempUnit);
-    dati.add("Lat: " + serialized(String(lat, 6)) + gpsUnit);
-    dati.add("Long: " + serialized(String(lng, 6)) + gpsUnit);
-    dati.add("Date: " + dayStamp);
-    dati.add("Time: " + timeStamp);
-    temperatureString = serialized(String(temp, 1));
+    for (int i = 0; i < 20; i++)
+    {
+      tempUnit.c_str();
+      gpsUnit.c_str();
 
-    Serial.println();
-    serializeJsonPretty(doc, Serial);
-    serializeJson(doc, msg);
-    client.publish("ProjectWork/natan", msg);
-    client.publish("ProjectWork/Temp", temperatureString.c_str());
+      temp = random(500.0, 3900.0) / 100.0;
+      lat = random(-3000, 10000) / 100.0;
+      lng = random(-10000, -1000) / 100.0;
+
+      while (!timeClient.update())
+      {
+        timeClient.forceUpdate();
+      }
+
+      formattedDate = timeClient.getFormattedDate();
+      int splitT = formattedDate.indexOf("T");
+      dayStamp = formattedDate.substring(0, splitT);
+      timeStamp = formattedDate.substring(splitT + 1, formattedDate.length() - 1);
+
+      JsonArray dati = doc.to<JsonArray>();
+      dati.add("Temp: " + serialized(String(temp, 1)) + tempUnit);
+      dati.add("Lat: " + serialized(String(lat, 6)) + gpsUnit);
+      dati.add("Long: " + serialized(String(lng, 6)) + gpsUnit);
+      dati.add("Date: " + dayStamp);
+      dati.add("Time: " + timeStamp);
+      temperatureString = serialized(String(temp, 1));
+
+      Serial.println();
+      serializeJsonPretty(doc, Serial);
+      serializeJson(doc, msg);
+      delay(1000);
+      client.publish("ProjectWork/natan", msg);
+      client.publish("ProjectWork/Temp", temperatureString.c_str());
+    }
   }
+}
+
+void loop()
+{
 }
