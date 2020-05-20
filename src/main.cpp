@@ -17,14 +17,15 @@ WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
 unsigned long lastMsg = 0;
-#define MSG_BUFFER_SIZE (200)
-char msg[MSG_BUFFER_SIZE];
+//#define MSG_BUFFER_SIZE (200)
+char msg[200];
 int value = 0;
 const size_t capacity = JSON_ARRAY_SIZE(5);
 DynamicJsonDocument doc(1024);
 String formattedDate;
 String dayStamp;
 String timeStamp;
+String temperatureString = "";
 double temp;
 float lat;
 float lng;
@@ -73,6 +74,7 @@ void reconnect()
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.subscribe("ProjectWork/natan");
+      client.subscribe("ProjectWork/Temp");
     }
     else
     {
@@ -118,7 +120,7 @@ void loop()
   timeStamp = formattedDate.substring(splitT + 1, formattedDate.length() - 1);
 
   unsigned long now = millis();
-  if (now - lastMsg > 2000)
+  if (now - lastMsg > 5000)
   {
     lastMsg = now;
     ++value;
@@ -136,10 +138,12 @@ void loop()
     dati.add("Long: " + serialized(String(lng, 6)) + gpsUnit);
     dati.add("Date: " + dayStamp);
     dati.add("Time: " + timeStamp);
+    temperatureString = serialized(String(temp, 1));
 
     Serial.println();
     serializeJsonPretty(doc, Serial);
-    serializeJsonPretty(doc, msg);
+    serializeJson(doc, msg);
     client.publish("ProjectWork/natan", msg);
+    client.publish("ProjectWork/Temp", temperatureString.c_str());
   }
 }
