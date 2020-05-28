@@ -23,9 +23,10 @@ int value = 0;
 const size_t capacity = JSON_ARRAY_SIZE(5);
 DynamicJsonDocument doc(1024);
 String formattedDate;
-String dayStamp;
-String timeStamp;
-String temperatureString = "";
+String id = "NM_93";
+String temperatura;
+String latitudine;
+String longitudine;
 double temp;
 float lat;
 float lng;
@@ -103,6 +104,10 @@ void loop()
   lat = random(-3000, 10000) / 100.0;
   lng = random(-10000, -1000) / 100.0;
 
+  temperatura = String(temp, 1);
+  latitudine = String(lat, 6);
+  longitudine = String(lng, 6);
+
   if (!client.connected())
   {
     reconnect();
@@ -115,35 +120,23 @@ void loop()
   }
 
   formattedDate = timeClient.getFormattedDate();
-  int splitT = formattedDate.indexOf("T");
-  dayStamp = formattedDate.substring(0, splitT);
-  timeStamp = formattedDate.substring(splitT + 1, formattedDate.length() - 1);
 
   unsigned long now = millis();
   if (now - lastMsg > 5000)
   {
     lastMsg = now;
     ++value;
-    // JSON Doc Object
-    /* doc["Temp: "] = serialized(String(temp, 1));
-    doc["Lat: "] = serialized(String(lat, 6));
-    doc["Long: "] = serialized(String(lng, 6));
-    doc["Date: "] = dayStamp;
-    doc["Time: "] = timeStamp; */
 
-    // Creazione di array
-    JsonArray dati = doc.to<JsonArray>();
-    dati.add("Temp: " + serialized(String(temp, 1)) + tempUnit);
-    dati.add("Lat: " + serialized(String(lat, 6)) + gpsUnit);
-    dati.add("Long: " + serialized(String(lng, 6)) + gpsUnit);
-    dati.add("Date: " + dayStamp);
-    dati.add("Time: " + timeStamp);
-    temperatureString = serialized(String(temp, 1));
+    doc["Id"] = id;
+    doc["Temp"] = serialized(temperatura + tempUnit);
+    doc["Lat"] = serialized(latitudine + gpsUnit);
+    doc["Long"] = serialized(longitudine + gpsUnit);
+    doc["Timestamp"] = formattedDate;
 
     Serial.println();
     serializeJsonPretty(doc, Serial);
     serializeJson(doc, msg);
     client.publish("ProjectWork/natan", msg);
-    client.publish("ProjectWork/Temp", temperatureString.c_str());
+    client.publish("ProjectWork/Temp", temperatura.c_str());
   }
 }
