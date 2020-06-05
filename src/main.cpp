@@ -4,7 +4,6 @@
 #include <WiFi.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
-#include <NTPtimeESP.h>
 #include <ArduinoJson.h>
 
 const char *ssid = "TISCALI-0080";
@@ -27,6 +26,8 @@ String id = "NM_93";
 String temperatura;
 String latitudine;
 String longitudine;
+String daystamp;
+String timestamp;
 double temp;
 float lat;
 float lng;
@@ -120,6 +121,10 @@ void loop()
   }
 
   formattedDate = timeClient.getFormattedDate();
+  int splitT = formattedDate.indexOf("T");
+  daystamp = formattedDate.substring(0, splitT);
+  timestamp = formattedDate.substring(splitT + 1, formattedDate.length() - 1);
+  formattedDate = daystamp + ' ' + timestamp;
 
   unsigned long now = millis();
   if (now - lastMsg > 5000)
@@ -134,8 +139,10 @@ void loop()
     doc["Timestamp"] = formattedDate;
 
     Serial.println();
+
     serializeJsonPretty(doc, Serial);
     serializeJson(doc, msg);
+
     client.publish("ProjectWork/natan", msg);
     client.publish("ProjectWork/Temp", temperatura.c_str());
   }
