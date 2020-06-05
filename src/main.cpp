@@ -8,7 +8,7 @@
 
 const char *ssid = "TISCALI-0080";
 const char *password = "DB3K3UUHFM";
-const char *mqtt_server = "broker.mqtt-dashboard.com";
+const char *mqtt_server = "109.68.154.91";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -26,8 +26,6 @@ String id = "NM_93";
 String temperatura;
 String latitudine;
 String longitudine;
-String daystamp;
-String timestamp;
 double temp;
 float lat;
 float lng;
@@ -121,10 +119,6 @@ void loop()
   }
 
   formattedDate = timeClient.getFormattedDate();
-  int splitT = formattedDate.indexOf("T");
-  daystamp = formattedDate.substring(0, splitT);
-  timestamp = formattedDate.substring(splitT + 1, formattedDate.length() - 1);
-  formattedDate = daystamp + ' ' + timestamp;
 
   unsigned long now = millis();
   if (now - lastMsg > 5000)
@@ -143,7 +137,7 @@ void loop()
     serializeJsonPretty(doc, Serial);
     serializeJson(doc, msg);
 
-    client.publish("ProjectWork/natan", msg);
-    client.publish("ProjectWork/Temp", temperatura.c_str());
+    client.publish("temperature-prova", msg);
+    client.publish("temperature-prova", temperatura.c_str());
   }
 }
