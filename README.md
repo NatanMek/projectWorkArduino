@@ -1,9 +1,21 @@
+<<<<<<< HEAD
+
 <h1 align="center">Welcome to Natan's ProjectWork 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
+=======
+<h1 align="center">Welcome to ProjectWork 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
+  <a href="#" target="_blank">
+    <img alt="License: NM" src="https://img.shields.io/badge/License-NM-yellow.svg" />
+  </a>
+>>>>>>> ae4a6dc444759cdd1e4740d3b45e9132b004e38a
 </p>
 
 > Sistema distribuito di misura/visualizzazione della temperatura. Questo programma in ambiente Arduino(ESP8266)invia temperatura,coordinate geografiche random insieme alla data e orario attuale ad un broker mqtt tramite WiFi. I dati vengono visualizzati tramite una UI usando il framework Node-RED
+
+<<<<<<< HEAD
 
 ## How the Code Works
 
@@ -53,16 +65,31 @@
 
 > La data viene salvata sulla variabile dayStamp e l'ora sulla variabile timeStamp.
 
+=======
+
+> > > > > > > ae4a6dc444759cdd1e4740d3b45e9132b004e38a
+
 ## Author
 
 👤 **NM-Natan Mekonnen**
 
-- LinkedIn: [@natan-mek](https://linkedin.com/in/natan-mek)
+<<<<<<< HEAD
+
+- # LinkedIn: [@natan-mek](https://linkedin.com/in/natan-mek)
+
+* LinkedIn: [@natan-mek](https://linkedin.com/in/natan-mek)
+  > > > > > > > ae4a6dc444759cdd1e4740d3b45e9132b004e38a
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
 
+## <<<<<<< HEAD
+
+# _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+
 ---
 
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+
+> > > > > > > ae4a6dc444759cdd1e4740d3b45e9132b004e38a
